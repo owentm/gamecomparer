@@ -1,26 +1,51 @@
+#TODO
+# add more websites to search, add keywords, add GUI elements
+
 import requests
 import re
 
 import spans
 from bs4 import BeautifulSoup
-def gameOneSearch(search1):
-    return "search"
-def gameTwoSearch(search2):
-    return "search"
+#take in user input, and turn it into a searchable function for pcgamer.com
+def gameSearch(game):
 
-url1 = 'https://www.pcgamer.com/baldurs-gate-3-review/'
-url2 = 'https://www.pcgamer.com/starfield-review/'
+    newGame = "https://www.pcgamer.com/" + game.lower().replace(' ', '-') + "-review"
+    return newGame
 
-gamepage1 = requests.get(url1)
-gamepage2 = requests.get(url2)
-soup = BeautifulSoup(gamepage1.text, 'html.parser')
+
+
+
+url1 = input('Input name of first game: ')
+url2 = input('Input name of second game: ')
+#allow user to search for two games
+
+
+
+
+game1 = gameSearch(url1)
+game2 = gameSearch(url2)
+#change the strings to the correct urls
+
+
+
+
+gamepage1 = requests.get(game1)
+gamepage2 = requests.get(game2)
+#access internet pages
+
+soup = BeautifulSoup(gamepage1.text, features='html.parser')
 soup2 = BeautifulSoup(gamepage2.text, features='html.parser')
+#read pages
 
 
-spans = soup.find('span', {'class' : 'score score-long'})
+spans = soup.find(name='span', attrs={'class' : 'score score-long'})
 spans2 = soup2.find(name='span', attrs={'class' : 'score score-long'})
+#find the scores
 
 
-print(soup.title)
-print(spans)
-print(spans2)
+
+
+print(url1 + ": " + spans.get_text(strip=True))
+print(url2 + ": " + spans2.get_text(strip=True))
+#print out the respective scores
+
